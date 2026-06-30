@@ -4,7 +4,9 @@ WORKDIR /app
 
 COPY requirements.txt .
 
-RUN pip install --no-cache-dir --prefix=/downloads -r requirements.txt
+RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
+
+COPY src ./src 
 
 
 
@@ -12,10 +14,16 @@ FROM python@sha256:4d7dd74c5b2d3151fe58eb8ecc9c56be13471a240ce5423ba765b04f8f95e
 
 WORKDIR /app 
 
-COPY --from=buildtime /downloads /usr/local
+COPY --from=buildtime /install /usr/local
 
-COPY . .
+COPY --from=buildtime /app/src ./src 
 
 EXPOSE 8080
+
+RUN groupadd -g 10001 apigroup && \
+useradd -u 10000 -g apigroup apiuser && \
+chown -R apiuser:apigroup /app 
+
+USER apiuser 
 
 CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8080"]
