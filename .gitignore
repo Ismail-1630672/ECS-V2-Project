@@ -9,6 +9,6 @@ __pycache__/
 terraform.tfstate*
 
 .terraform
-.terraform.lock.hcl
+.terraform.lock.hcl 
 
 
