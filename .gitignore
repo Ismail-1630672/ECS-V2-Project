@@ -8,7 +8,7 @@ __pycache__/
 .plan
 terraform.tfstate*
 
-.terraform
+.terraform/
 .terraform.lock.hcl 
 
 
