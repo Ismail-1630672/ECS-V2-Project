@@ -7,18 +7,26 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "ecs-v2-deployment"
-    key = "terraform.tfstate"
-    region = "eu-west-2"
-    encrypt = true 
+    bucket       = "ismail-osman-ecs-v2-bucket"
+    key          = "terraform.tfstate"
+    region       = "eu-west-2"
+    encrypt      = true
     use_lockfile = true
 
   }
 
-   
+
 }
 
 
 provider "aws" {
-  region = "eu-west-2"
+  region = var.aws_region
+
+  default_tags {
+    tags = {
+      Project = var.project_name
+    }
+  }
+
+
 }
