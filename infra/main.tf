@@ -128,8 +128,8 @@ module "codedeploy" {
 }
 
 module "waf" {
-  source = "./modules/waf"
-  project_name = var.project_name
+  source            = "./modules/waf"
+  project_name      = var.project_name
   load_balancer_arn = module.alb.load_balancer_arn
 
 }
