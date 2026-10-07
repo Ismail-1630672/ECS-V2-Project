@@ -57,7 +57,8 @@ resource "aws_iam_role_policy" "ecs_deploy_policy" {
           "ecr:InitiateLayerUpload",
           "ecr:ListImages",
           "ecr:PutImage",
-          "ecr:TagResource"
+          "ecr:TagResource",
+          "ecr:UploadLayerPart"
         ]
         Resource = "*"
       },
