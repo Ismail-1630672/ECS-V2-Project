@@ -1,7 +1,7 @@
 resource "random_password" "database" {
   length           = 32
   special          = true
-  override_special = "_-" #avoid characters which can cause issues
+  override_special = "!#$%&*()-_=+[]{}<>:?"
 }
 
 #store databse in private subnet to prevent direct access by users of the internet
