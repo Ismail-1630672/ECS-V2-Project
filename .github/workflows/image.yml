@@ -47,7 +47,7 @@ jobs:
         run: |
           cd services/worker 
           docker build -t $ECR_REGISTRY/$WORKER_ECR_REPO:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$WORKER_API_ECR_REPO:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$WORKER_ECR_REPO:$IMAGE_TAG
 
       - name: Build and push dashboard image
         env:
