@@ -11,7 +11,6 @@ env:
   AWS_REGION: ${{ vars.AWS_REGION }}
   ACCOUNT_ID: ${{ vars.ACCOUNT_ID }}
   OIDC_ROLE: ${{ vars.OIDC_ROLE }}
-  ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
   IMAGE_TAG: ${{ github.sha }}
   API_ECR_REPO: ${{ vars.API_ECR_REPO }}
   WORKER_ECR_REPO: ${{ vars.WORKER_ECR_REPO }}
@@ -35,18 +34,24 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Build and push API image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
           cd app 
           docker build -t $ECR_REGISTRY/$API_ECR_REPO:$IMAGE_TAG .
           docker push $ECR_REGISTRY/${{ env.API_ECR_REPO }}:$IMAGE_TAG
 
       - name: Build and push worker image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
           cd services/worker 
           docker build -t $ECR_REGISTRY/$WORKER_ECR_REPO:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$WORKER_API_ECR_REPO:$IMAGE_TAG
 
       - name: Build and push dashboard image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
           cd services/dashboard 
           docker build -t $ECR_REGISTRY/$DASHBOARD_ECR_REPO:$IMAGE_TAG .
