@@ -83,7 +83,8 @@ resource "aws_iam_role_policy" "ecs_deploy_policy" {
           "ecs:TagResource",
           "ecs:UntagResource",
           "ecs:UpdateService",
-          "ecs:DescribeServices"
+          "ecs:DescribeServices",
+          "ecs:DescribeTaskDefinition"
 
         ]
         Resource = "*"

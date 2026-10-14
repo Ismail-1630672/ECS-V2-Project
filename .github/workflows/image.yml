@@ -56,3 +56,47 @@ jobs:
           cd services/dashboard 
           docker build -t $ECR_REGISTRY/$DASHBOARD_ECR_REPO:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$DASHBOARD_ECR_REPO:$IMAGE_TAG
+
+      - name: Download existing API task definition
+        run: aws ecs describe-task-definition --task-definition ecs-v2-api-task-definition --query taskDefinition > api-task-definition.json
+
+      - name: Update API task definition
+        id: render-api-task
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: api-task-definition.json
+          container-name: ecs-v2-api-container
+          image: ${{ steps.login-ecr.outputs.registry }}/${{ env.API_ECR_REPO }}:${{ env.IMAGE_TAG }}
+
+      - name: Deploy API via codedeploy blue/green
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.render-api-task.outputs.task-definition }}
+          service: ecs-v2-api-ecs-service
+          cluster: ecs-v2-ecs-cluster
+          wait-for-service-stability: true
+          codedeploy-application: blue-green-app
+          codedeploy-deployment-group: api-blue-green-deployment-group
+          codedeploy-appspec: appspec-api.yml
+
+      - name: Download existing dashboard task definition
+        run: aws ecs describe-task-definition --task-definition ecs-v2-dashboard-task-definition --query taskDefinition > dashboard-task-definition.json
+
+      - name: Update dashboard task definition
+        id: render-dashboard-task
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: dashboard-task-definition.json
+          container-name: ecs-v2-dashboard-container
+          image: ${{ steps.login-ecr.outputs.registry }}/${{ env.DASHBOARD_ECR_REPO }}:${{ env.IMAGE_TAG }}
+
+      - name: Deploy dashboard via codedeploy blue/green
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.render-dashboard-task.outputs.task-definition }}
+          service: ecs-v2-dashboard-ecs-service
+          cluster: ecs-v2-ecs-cluster
+          wait-for-service-stability: true
+          codedeploy-application: blue-green-app
+          codedeploy-deployment-group: dashboard-blue-green-deployment-group
+          codedeploy-appspec: appspec-dashboard.yml
