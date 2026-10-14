@@ -77,7 +77,7 @@ jobs:
           wait-for-service-stability: true
           codedeploy-application: blue-green-app
           codedeploy-deployment-group: api-blue-green-deployment-group
-          codedeploy-appspec: appspec-api.yml
+          codedeploy-appspec: config/appspec-api.yml
 
       - name: Download existing dashboard task definition
         run: aws ecs describe-task-definition --task-definition ecs-v2-dashboard-task-definition --query taskDefinition > dashboard-task-definition.json
@@ -99,4 +99,4 @@ jobs:
           wait-for-service-stability: true
           codedeploy-application: blue-green-app
           codedeploy-deployment-group: dashboard-blue-green-deployment-group
-          codedeploy-appspec: appspec-dashboard.yml
+          codedeploy-appspec: config/appspec-dashboard.yml
