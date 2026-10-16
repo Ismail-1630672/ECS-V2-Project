@@ -6,9 +6,9 @@ on:
   workflow_call:
     outputs:
       api-image:
-        value: ${{ jobs.build-push.env.ECR_REGISTRY }}/${{ env.API_ECR_REPO }}:${{ env.IMAGE_TAG }}
+        value: ${{ jobs.build-push.env.ECR_REGISTRY }}
       dashboard-image:
-        value: ${{ jobs.build-push.env.ECR_REGISTRY }}/${{ env.DASHBOARD_ECR_REPO }}:${{ env.IMAGE_TAG }}
+        value: ${{ jobs.build-push.env.ECR_REGISTRY }}
 
 permissions:
   id-token: write
