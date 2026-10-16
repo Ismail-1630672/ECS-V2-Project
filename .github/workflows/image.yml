@@ -1,8 +1,5 @@
 name: Build and push docker image to ECR repo
 on:
-  push:
-    branches: [main]
-
   workflow_call:
     outputs:
       api-image:
