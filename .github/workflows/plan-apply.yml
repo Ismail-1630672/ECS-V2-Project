@@ -42,7 +42,7 @@ jobs:
         run: terraform plan -var-file=ecsv2.tfvars -out=./state/ecs-infra-plan.out
 
       - name: upload tfplan
-        uses: actions/upload-artifacts@v4
+        uses: actions/upload-artifact@v4
         with:
           name: tfplan
           path: |
