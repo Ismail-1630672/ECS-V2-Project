@@ -1,0 +1,30 @@
+name: Terraform plan for ECS infrastructure deployment
+on:
+  push:
+    branches: [main]
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: ${{ vars.AWS_REGION }}
+  ACCOUNT_ID: ${{ vars.ACCOUNT_ID }}
+  OIDC_ROLE: ${{ vars.OIDC_ROLE }}
+
+jobs:
+  docker-build-push:
+    uses: ./.github/workflows/image.yml
+
+  terraform-plan:
+    needs: [docker-build-push]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.OIDC_ROLE }}
+          aws-region: ${{ env.AWS_REGION }}
