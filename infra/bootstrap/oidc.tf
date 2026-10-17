@@ -58,7 +58,8 @@ resource "aws_iam_role_policy" "ecs_deploy_policy" {
           "ecr:ListImages",
           "ecr:PutImage",
           "ecr:TagResource",
-          "ecr:UploadLayerPart"
+          "ecr:UploadLayerPart",
+          "ecr:DescribeRepositories"
         ]
         Resource = "*"
       },
@@ -340,6 +341,14 @@ resource "aws_iam_role_policy" "ecs_deploy_policy" {
           "iam:UntagRole",
           "iam:UpdateOpenIDConnectProviderThumbprint",
           "iam:UpdateRole"
+        ]
+        Resource = "*"
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "route53:ListHostedZones",
+
         ]
         Resource = "*"
       }
