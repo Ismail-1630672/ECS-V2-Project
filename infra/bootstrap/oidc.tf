@@ -60,7 +60,8 @@ resource "aws_iam_role_policy" "ecs_deploy_policy" {
           "ecr:TagResource",
           "ecr:UploadLayerPart",
           "ecr:DescribeRepositories",
-          "ecr:DescribeImages"
+          "ecr:DescribeImages",
+          "ecr:ListTagsForResource"
         ]
         Resource = "*"
       },
@@ -350,8 +351,13 @@ resource "aws_iam_role_policy" "ecs_deploy_policy" {
         Action = [
           "route53:ListHostedZones",
           "route53:GetHostedZone",
-          "route53:ListTagsForResource "
-
+          "route53:ListTagsForResource",
+          "route53:DeleteHostedZone",
+          "route53:GetHostedZone",
+          "route53:ListHostedZones",
+          "route53:ListHostedZonesByName",
+          "route53:ListHostedZonesByVPC",
+          "route53:ListTagsForResources",
         ]
         Resource = "*"
       }
