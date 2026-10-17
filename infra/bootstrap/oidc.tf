@@ -348,6 +348,7 @@ resource "aws_iam_role_policy" "ecs_deploy_policy" {
         Effect = "Allow",
         Action = [
           "route53:ListHostedZones",
+          "route53:GetHostedZone"
 
         ]
         Resource = "*"
