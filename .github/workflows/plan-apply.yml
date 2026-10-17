@@ -23,6 +23,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
 
       - name: Configure AWS credentials via OIDC
         uses: aws-actions/configure-aws-credentials@v4
@@ -49,4 +51,5 @@ jobs:
           name: tfplan
           path: |
             infra/state/ecs-infra-plan.out
+          if-no-files-found: error
           retention-days: 7

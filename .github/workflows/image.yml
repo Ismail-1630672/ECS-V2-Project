@@ -3,9 +3,9 @@ on:
   workflow_call:
     outputs:
       api-image:
-        value: ${{ jobs.build-push.env.ECR_REGISTRY }}
+        value: ${{ jobs.build-push.outputs.api-image }}
       dashboard-image:
-        value: ${{ jobs.build-push.env.ECR_REGISTRY }}
+        value: ${{ jobs.build-push.outputs.dashboard-image }}
 
 permissions:
   id-token: write
@@ -23,6 +23,9 @@ env:
 jobs:
   build-push:
     runs-on: ubuntu-latest
+    outputs:
+      api_image: ${{ steps.images.outputs.api_image }}
+      dashboard_image: ${{ steps.images.outputs.dashboard_image }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -43,7 +46,7 @@ jobs:
         run: |
           cd app 
           docker build -t $ECR_REGISTRY/$API_ECR_REPO:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/${{ env.API_ECR_REPO }}:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$API_ECR_REPO:$IMAGE_TAG
 
       - name: Build and push worker image
         env:
@@ -60,6 +63,14 @@ jobs:
           cd services/dashboard 
           docker build -t $ECR_REGISTRY/$DASHBOARD_ECR_REPO:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$DASHBOARD_ECR_REPO:$IMAGE_TAG
+
+      - name: Upload output of images
+        id: images
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        run: |
+          echo "api_image=$ECR_REGISTRY/$API_ECR_REPO:$IMAGE_TAG" >> "$GITHUB_OUTPUT"
+          echo "dashboard_image=$ECR_REGISTRY/$DASHBOARD_ECR_REPO:$IMAGE_TAG" >> "$GITHUB_OUTPUT"
 
       # - name: Download existing API task definition
       #   run: aws ecs describe-task-definition --task-definition ecs-v2-api-task-definition --query taskDefinition > api-task-definition.json
