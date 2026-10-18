@@ -1,8 +1,5 @@
 name: Build and push docker image to ECR repo
 on:
-  push:
-    branches: [main]
-
   workflow_call:
     outputs:
       api-image:
@@ -72,8 +69,8 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
-          echo "api_image=$ECR_REGISTRY/$API_ECR_REPO:$IMAGE_TAG" >> "$GITHUB_OUTPUT"
-          echo "dashboard_image=$ECR_REGISTRY/$DASHBOARD_ECR_REPO:$IMAGE_TAG" >> "$GITHUB_OUTPUT"
+          echo "api-image=$ECR_REGISTRY/$API_ECR_REPO:$IMAGE_TAG" >> "$GITHUB_OUTPUT"
+          echo "dashboard-image=$ECR_REGISTRY/$DASHBOARD_ECR_REPO:$IMAGE_TAG" >> "$GITHUB_OUTPUT"
 
       # - name: Download existing API task definition
       #   run: aws ecs describe-task-definition --task-definition ecs-v2-api-task-definition --query taskDefinition > api-task-definition.json
