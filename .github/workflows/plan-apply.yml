@@ -1,9 +1,7 @@
 name: ECS infrastructure deployment
 
 on:
-  workflow_run:
-    workflows: [Build and push docker image to ECR repo]
-    types: [completed]
+  push:
     branches: [main]
 
 permissions:
@@ -19,17 +17,6 @@ env:
 jobs:
   docker-build-push:
     uses: ./.github/workflows/image.yml
-  on-success:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == "success" }}
-    steps:
-      - run: echo "The docker build and push workflow successeded"
-
-  on-failure:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == "failure"}}
-    steps:
-      - run: echo "The docker build and push workflow failed"
 
   terraform-plan:
     needs: [docker-build-push]
