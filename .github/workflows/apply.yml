@@ -1,0 +1,30 @@
+name: apply of ECS infra and blue-green deployment
+
+on:
+  push:
+    branches: [main]
+
+  workflow_dispatch:
+    inputs:
+      terraform_apply:
+        description: "apply terraform code"
+        required: true
+        type: string
+
+      confirmation:
+        description: 'Type "yes" to confirm terraform changes'
+        required: true
+        type: string
+
+jobs:
+  terraform-plan:
+    uses: ./.github/workflows/plan-apply.yml
+
+  manual-approval:
+    runs-on: ubuntu-latest
+    steps:
+      - name: manually approve terraform changes
+        if: ${{ github.event.inputs.confirm != 'yes' }}
+        run: |
+          echo "Error: You must type yes for approval"
+          exit 1
