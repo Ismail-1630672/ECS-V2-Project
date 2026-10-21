@@ -54,3 +54,36 @@ jobs:
             infra/state/ecs-infra-plan.out
           if-no-files-found: error
           retention-days: 7
+
+  terraform-apply:
+    needs: terraform-plan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.OIDC_ROLE }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: download terraform plan
+        uses: actions/download-artifact@v4
+        with:
+          name: tfplan
+          path: infra/state
+
+      - name: initialise terraform
+        working-directory: infra
+        run: |
+          terraform init -backend-config="bucket=ismail-osman-ecs-v2-bucket" \
+          -backend-config="key=terraform.tfstate" \
+          -backend-config="region=eu-west-2"
+
+      - name: apply terraform
+        working-directory: infra
+        run: |
+          terraform apply ./state/ecs-infra-plan.out --auto-approve
