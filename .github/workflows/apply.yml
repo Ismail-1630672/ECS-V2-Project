@@ -1,9 +1,6 @@
 name: apply of ECS infra and blue-green deployment
 
 on:
-  push:
-    branches: [main]
-
   workflow_dispatch:
     inputs:
       terraform_apply:
@@ -73,4 +70,4 @@ jobs:
       - name: apply terraform
         working-directory: infra
         run: |
-          terraform apply -var-file=ecsv2.tfvars tfplan --auto-approve
+          terraform apply ./state/ecs-infra-plan.out --auto-approve
