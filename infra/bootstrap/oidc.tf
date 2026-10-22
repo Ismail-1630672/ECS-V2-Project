@@ -118,7 +118,8 @@ resource "aws_iam_role_policy" "ecs_deploy_policy" {
           "elasticloadbalancing:SetWebAcl",
           "elasticloadbalancing:SetSecurityGroups",
           "elasticloadbalancing:SetSubnets",
-          "elasticloadbalancing:ModifyListener"
+          "elasticloadbalancing:ModifyListener",
+          "elasticloadbalancing:DescribeTargetGroupAttributes"
         ]
         Resource = "*"
       },
@@ -317,7 +318,8 @@ resource "aws_iam_role_policy" "ecs_deploy_policy" {
           "ec2:DescribeSubnets",
           "ec2:DescribeSecurityGroups",
           "ec2:DescribeVpcEndpoints",
-          "ec2:DescribeNetworkInterfaces"
+          "ec2:DescribeNetworkInterfaces",
+          "ec2:DescribePrefixLists"
         ]
         Resource = "*"
       },
@@ -377,7 +379,8 @@ resource "aws_iam_role_policy" "ecs_deploy_policy" {
           "route53:ListHostedZonesByVPC",
           "route53:ListTagsForResources",
           "route53:ChangeResourceRecordSets",
-          "route53:GetChange"
+          "route53:GetChange",
+          "route53:ListResourceRecordSets"
         ]
         Resource = "*"
       },
