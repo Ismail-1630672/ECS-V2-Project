@@ -122,7 +122,8 @@ resource "aws_iam_role_policy" "ecs_deploy_policy" {
           "elasticloadbalancing:DescribeTargetGroupAttributes",
           "elasticloadbalancing:DescribeTags",
           "elasticloadbalancing:DescribeLoadBalancers",
-          "elasticloadbalancing:ModifyLoadBalancerAttributes"
+          "elasticloadbalancing:ModifyLoadBalancerAttributes",
+          "elasticloadbalancing:DescribeLoadBalancerAttributes"
         ]
         Resource = "*"
       },
