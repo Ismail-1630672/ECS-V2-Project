@@ -123,7 +123,8 @@ resource "aws_iam_role_policy" "ecs_deploy_policy" {
           "elasticloadbalancing:DescribeTags",
           "elasticloadbalancing:DescribeLoadBalancers",
           "elasticloadbalancing:ModifyLoadBalancerAttributes",
-          "elasticloadbalancing:DescribeLoadBalancerAttributes"
+          "elasticloadbalancing:DescribeLoadBalancerAttributes",
+          "elasticloadbalancing:DescribeRules"
         ]
         Resource = "*"
       },
