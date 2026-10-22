@@ -120,7 +120,8 @@ resource "aws_iam_role_policy" "ecs_deploy_policy" {
           "elasticloadbalancing:SetSubnets",
           "elasticloadbalancing:ModifyListener",
           "elasticloadbalancing:DescribeTargetGroupAttributes",
-          "elasticloadbalancing:DescribeTags"
+          "elasticloadbalancing:DescribeTags",
+          "elasticloadbalancing:DescribeLoadBalancers"
         ]
         Resource = "*"
       },
