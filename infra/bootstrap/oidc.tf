@@ -307,7 +307,8 @@ resource "aws_iam_role_policy" "ecs_deploy_policy" {
           "ec2:DisassociateRouteTable",
           "ec2:RevokeSecurityGroupEgress",
           "ec2:RevokeSecurityGroupIngress",
-          "ec2:DescribeVpcs"
+          "ec2:DescribeVpcs",
+          "ec2:DescribeVpcAttribute"
         ]
         Resource = "*"
       },
