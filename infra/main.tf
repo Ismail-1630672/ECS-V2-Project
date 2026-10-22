@@ -86,6 +86,7 @@ module "sqs" {
 
 module "ecs" {
   source                     = "./modules/ecs"
+  depends_on                 = [module.alb]
   project_name               = var.project_name
   microservices_logs         = var.microservices_logs
   cpu                        = var.cpu
