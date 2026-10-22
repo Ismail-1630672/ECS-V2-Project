@@ -87,7 +87,8 @@ resource "aws_iam_role_policy" "ecs_deploy_policy" {
           "ecs:UntagResource",
           "ecs:UpdateService",
           "ecs:DescribeServices",
-          "ecs:DescribeTaskDefinition"
+          "ecs:DescribeTaskDefinition",
+          "ecs:DescribeClusters"
 
         ]
         Resource = "*"
@@ -180,6 +181,7 @@ resource "aws_iam_role_policy" "ecs_deploy_policy" {
           "codedeploy:UntagResource",
           "codedeploy:UpdateApplication",
           "codedeploy:RegisterApplicationRevision",
+          "codedeploy:ListTagsForResource"
         ]
         Resource = "*"
       },
@@ -304,7 +306,8 @@ resource "aws_iam_role_policy" "ecs_deploy_policy" {
           "ec2:DeleteRoute",
           "ec2:DisassociateRouteTable",
           "ec2:RevokeSecurityGroupEgress",
-          "ec2:RevokeSecurityGroupIngress"
+          "ec2:RevokeSecurityGroupIngress",
+          "ec2:DescribeVpcs"
         ]
         Resource = "*"
       },
@@ -342,7 +345,9 @@ resource "aws_iam_role_policy" "ecs_deploy_policy" {
           "iam:UntagPolicy",
           "iam:UntagRole",
           "iam:UpdateOpenIDConnectProviderThumbprint",
-          "iam:UpdateRole"
+          "iam:UpdateRole",
+          "iam:ListAttachedRolePolicies",
+          "iam:GetPolicyVersion"
         ]
         Resource = "*"
       },
@@ -358,6 +363,12 @@ resource "aws_iam_role_policy" "ecs_deploy_policy" {
           "route53:ListHostedZonesByName",
           "route53:ListHostedZonesByVPC",
           "route53:ListTagsForResources",
+        ]
+        Resource = "*"
+      },
+      {
+        Effect = "Allow",
+        Action = ["acm:RequestCertificate",
         ]
         Resource = "*"
       }
