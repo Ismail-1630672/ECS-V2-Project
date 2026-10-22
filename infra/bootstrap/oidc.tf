@@ -160,7 +160,8 @@ resource "aws_iam_role_policy" "ecs_deploy_policy" {
           "sqs:GetQueueUrl",
           "sqs:ListDeadLetterSourceQueues",
           "sqs:ListQueueTags",
-          "sqs:SetQueueAttributes"
+          "sqs:SetQueueAttributes",
+          "sqs:deletequeue"
         ]
         Resource = "*"
       },
