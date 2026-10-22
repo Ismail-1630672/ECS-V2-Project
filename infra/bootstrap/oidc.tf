@@ -308,7 +308,8 @@ resource "aws_iam_role_policy" "ecs_deploy_policy" {
           "ec2:RevokeSecurityGroupEgress",
           "ec2:RevokeSecurityGroupIngress",
           "ec2:DescribeVpcs",
-          "ec2:DescribeVpcAttribute"
+          "ec2:DescribeVpcAttribute",
+          "ec2:ModifyVpcAttribute"
         ]
         Resource = "*"
       },
@@ -348,7 +349,10 @@ resource "aws_iam_role_policy" "ecs_deploy_policy" {
           "iam:UpdateOpenIDConnectProviderThumbprint",
           "iam:UpdateRole",
           "iam:ListAttachedRolePolicies",
-          "iam:GetPolicyVersion"
+          "iam:GetPolicyVersion",
+          "iam:ListPolicyVersions",
+          "iam:ListInstanceProfilesForRole"
+
         ]
         Resource = "*"
       },
@@ -369,7 +373,9 @@ resource "aws_iam_role_policy" "ecs_deploy_policy" {
       },
       {
         Effect = "Allow",
-        Action = ["acm:RequestCertificate",
+        Action = [
+          "acm:RequestCertificate",
+          "acm:ListTagsForCertificate"
         ]
         Resource = "*"
       }
