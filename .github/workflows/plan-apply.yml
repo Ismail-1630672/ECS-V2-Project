@@ -86,4 +86,4 @@ jobs:
       - name: apply terraform
         working-directory: infra
         run: |
-          terraform apply ./state/ecs-infra-plan.out --auto-approve
+          terraform apply ./state/ecs-infra-plan.out
