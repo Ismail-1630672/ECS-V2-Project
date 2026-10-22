@@ -235,7 +235,8 @@ resource "aws_iam_role_policy" "ecs_deploy_policy" {
           "elasticache:DescribeCacheSubnetGroups",
           "elasticache:ModifyCacheCluster",
           "elasticache:ModifyCacheSubnetGroup",
-          "elasticache:ListTagsForResource"
+          "elasticache:ListTagsForResource",
+          "elasticloadbalancing:DescribeTargetGroups"
         ]
         Resource = "*"
       },
@@ -309,7 +310,11 @@ resource "aws_iam_role_policy" "ecs_deploy_policy" {
           "ec2:RevokeSecurityGroupIngress",
           "ec2:DescribeVpcs",
           "ec2:DescribeVpcAttribute",
-          "ec2:ModifyVpcAttribute"
+          "ec2:ModifyVpcAttribute",
+          "ec2:DescribeRouteTables",
+          "ec2:DescribeInternetGateways",
+          "ec2:DescribeSubnets",
+          "ec2:DescribeSecurityGroups"
         ]
         Resource = "*"
       },
@@ -368,6 +373,7 @@ resource "aws_iam_role_policy" "ecs_deploy_policy" {
           "route53:ListHostedZonesByName",
           "route53:ListHostedZonesByVPC",
           "route53:ListTagsForResources",
+          "route53:ChangeResourceRecordSets"
         ]
         Resource = "*"
       },
