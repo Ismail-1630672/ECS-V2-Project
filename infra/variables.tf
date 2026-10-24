@@ -134,6 +134,11 @@ variable "microservices_logs" {
   default     = ["api", "dashboard", "worker"]
 }
 
+variable "image_tag" {
+  type = string 
+  description = "image tag as github sha for docker image"
+}
+
 variable "cpu" {
   type        = number
   description = "cpu allocated to ecs task"
