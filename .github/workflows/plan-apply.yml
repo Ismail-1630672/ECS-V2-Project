@@ -91,7 +91,7 @@ jobs:
           terraform apply ./state/ecs-infra-plan.out
 
   blue-green-deployment:
-    needs: terraform-apply
+    needs: [docker-build-push, terraform-apply]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -114,7 +114,7 @@ jobs:
         with:
           task-definition: api-task-definition.json
           container-name: ecs-v2-api-container
-          image: api-image
+          image: ${{ needs.docker-build-push.outputs.api-image }}
 
       - name: Deploy API via codedeploy blue/green
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
@@ -136,7 +136,7 @@ jobs:
         with:
           task-definition: dashboard-task-definition.json
           container-name: ecs-v2-dashboard-container
-          image: dashboard-image
+          image: ${{ needs.docker-build-push.outputs.dashboard-image }}
 
       - name: Deploy dashboard via codedeploy blue/green
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
