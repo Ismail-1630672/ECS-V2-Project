@@ -24,8 +24,8 @@ jobs:
   build-push:
     runs-on: ubuntu-latest
     outputs:
-      api-image: ${{ steps.images.outputs.api_image }}
-      dashboard-image: ${{ steps.images.outputs.dashboard_image }}
+      api-image: ${{ steps.images.outputs.api-image }}
+      dashboard-image: ${{ steps.images.outputs.dashboard-image }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
