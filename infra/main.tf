@@ -104,6 +104,7 @@ module "ecs" {
   api_task_role_arn          = module.iam.api_task_role_arn
   worker_task_role_arn       = module.iam.worker_task_role_arn
   dashboard_task_role_arn    = module.iam.dashboard_task_role_arn
+  image_tag                  = var.image_tag
 
 }
 

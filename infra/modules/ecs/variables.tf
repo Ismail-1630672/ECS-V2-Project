@@ -44,6 +44,11 @@ variable "desired_count" {
   description = "desired count for ecs tasks"
 }
 
+variable "image_tag" {
+  type        = string
+  description = "image tag for docker image"
+}
+
 variable "private_subnet_id" {
 }
 

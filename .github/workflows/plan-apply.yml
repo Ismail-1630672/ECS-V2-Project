@@ -42,6 +42,8 @@ jobs:
 
       - name: plan for ecs infra
         working-directory: infra
+        env:
+          TF_VAR_image_tag: ${{ github.sha }}
         run: |
           mkdir -p state 
           terraform plan -var-file=ecsv2.tfvars -out=./state/ecs-infra-plan.out
@@ -88,29 +90,29 @@ jobs:
         run: |
           terraform apply ./state/ecs-infra-plan.out
 
-  terraform_destroy:
-    needs: terraform-apply
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: ${{ env.TF_VERSION }}
+  # terraform_destroy:
+  #   needs: terraform-apply
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: hashicorp/setup-terraform@v3
+  #       with:
+  #         terraform_version: ${{ env.TF_VERSION }}
 
-      - name: Configure AWS credentials via OIDC
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ env.OIDC_ROLE }}
-          aws-region: ${{ env.AWS_REGION }}
+  #     - name: Configure AWS credentials via OIDC
+  #       uses: aws-actions/configure-aws-credentials@v4
+  #       with:
+  #         role-to-assume: ${{ env.OIDC_ROLE }}
+  #         aws-region: ${{ env.AWS_REGION }}
 
-      - name: initialise terraform
-        working-directory: infra
-        run: |
-          terraform init -backend-config="bucket=ismail-osman-ecs-v2-bucket" \
-          -backend-config="key=terraform.tfstate" \
-          -backend-config="region=eu-west-2"
+  #     - name: initialise terraform
+  #       working-directory: infra
+  #       run: |
+  #         terraform init -backend-config="bucket=ismail-osman-ecs-v2-bucket" \
+  #         -backend-config="key=terraform.tfstate" \
+  #         -backend-config="region=eu-west-2"
 
-      - name: destroy terraform
-        working-directory: infra
-        run: |
-          terraform destroy -var-file=ecsv2.tfvars --auto-approve
+  #     - name: destroy terraform
+  #       working-directory: infra
+  #       run: |
+  #         terraform destroy -var-file=ecsv2.tfvars --auto-approve

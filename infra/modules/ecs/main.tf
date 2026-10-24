@@ -35,7 +35,7 @@ resource "aws_ecs_task_definition" "api-task" {
 
   container_definitions = jsonencode([{
     name      = "${var.project_name}-api-container"
-    image     = "${data.aws_ecr_repository.api.repository_url}:latest"
+    image     = "${data.aws_ecr_repository.api.repository_url}:${var.image_tag}"
     essential = true
 
     portMappings = [{
@@ -117,7 +117,7 @@ resource "aws_ecs_task_definition" "worker-task" {
 
   container_definitions = jsonencode([{
     name      = "${var.project_name}-worker-container"
-    image     = "${data.aws_ecr_repository.worker.repository_url}:latest"
+    image     = "${data.aws_ecr_repository.worker.repository_url}:${var.image_tag}"
     essential = true
 
 
@@ -181,7 +181,7 @@ resource "aws_ecs_task_definition" "dashboard-task" {
 
   container_definitions = jsonencode([{
     name      = "${var.project_name}-dashboard-container"
-    image     = "${data.aws_ecr_repository.dashboard.repository_url}:latest"
+    image     = "${data.aws_ecr_repository.dashboard.repository_url}:${var.image_tag}"
     essential = true
 
     portMappings = [{
