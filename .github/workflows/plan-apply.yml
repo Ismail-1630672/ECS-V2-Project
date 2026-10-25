@@ -10,7 +10,6 @@ permissions:
 
 env:
   AWS_REGION: ${{ vars.AWS_REGION }}
-  ACCOUNT_ID: ${{ vars.ACCOUNT_ID }}
   OIDC_ROLE: ${{ vars.OIDC_ROLE }}
   TF_VERSION: "1.15.8"
 
@@ -90,64 +89,64 @@ jobs:
         run: |
           terraform apply ./state/ecs-infra-plan.out
 
-  blue-green-deployment:
-    needs: [docker-build-push, terraform-apply]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: ${{ env.TF_VERSION }}
+  # blue-green-deployment:
+  #   needs: [docker-build-push, terraform-apply]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: hashicorp/setup-terraform@v3
+  #       with:
+  #         terraform_version: ${{ env.TF_VERSION }}
 
-      - name: Configure AWS credentials via OIDC
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ env.OIDC_ROLE }}
-          aws-region: ${{ env.AWS_REGION }}
+  #     - name: Configure AWS credentials via OIDC
+  #       uses: aws-actions/configure-aws-credentials@v4
+  #       with:
+  #         role-to-assume: ${{ env.OIDC_ROLE }}
+  #         aws-region: ${{ env.AWS_REGION }}
 
-      - name: Download existing API task definition
-        run: aws ecs describe-task-definition --task-definition ecs-v2-api-task-definition --query taskDefinition > api-task-definition.json
+  #     - name: Download existing API task definition
+  #       run: aws ecs describe-task-definition --task-definition ecs-v2-api-task-definition --query taskDefinition > api-task-definition.json
 
-      - name: Update API task definition
-        id: render-api-task
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: api-task-definition.json
-          container-name: ecs-v2-api-container
-          image: ${{ needs.docker-build-push.outputs.api-image }}
+  #     - name: Update API task definition
+  #       id: render-api-task
+  #       uses: aws-actions/amazon-ecs-render-task-definition@v1
+  #       with:
+  #         task-definition: api-task-definition.json
+  #         container-name: ecs-v2-api-container
+  #         image: ${{ needs.docker-build-push.outputs.api-image }}
 
-      - name: Deploy API via codedeploy blue/green
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition: ${{ steps.render-api-task.outputs.task-definition }}
-          service: ecs-v2-api-ecs-service
-          cluster: ecs-v2-ecs-cluster
-          wait-for-service-stability: true
-          codedeploy-application: blue-green-app
-          codedeploy-deployment-group: api-blue-green-deployment-group
-          codedeploy-appspec: config/appspec-api.yml
+  #     - name: Deploy API via codedeploy blue/green
+  #       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+  #       with:
+  #         task-definition: ${{ steps.render-api-task.outputs.task-definition }}
+  #         service: ecs-v2-api-ecs-service
+  #         cluster: ecs-v2-ecs-cluster
+  #         wait-for-service-stability: true
+  #         codedeploy-application: blue-green-app
+  #         codedeploy-deployment-group: api-blue-green-deployment-group
+  #         codedeploy-appspec: config/appspec-api.yml
 
-      - name: Download existing dashboard task definition
-        run: aws ecs describe-task-definition --task-definition ecs-v2-dashboard-task-definition --query taskDefinition > dashboard-task-definition.json
+  #     - name: Download existing dashboard task definition
+  #       run: aws ecs describe-task-definition --task-definition ecs-v2-dashboard-task-definition --query taskDefinition > dashboard-task-definition.json
 
-      - name: Update dashboard task definition
-        id: render-dashboard-task
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: dashboard-task-definition.json
-          container-name: ecs-v2-dashboard-container
-          image: ${{ needs.docker-build-push.outputs.dashboard-image }}
+  #     - name: Update dashboard task definition
+  #       id: render-dashboard-task
+  #       uses: aws-actions/amazon-ecs-render-task-definition@v1
+  #       with:
+  #         task-definition: dashboard-task-definition.json
+  #         container-name: ecs-v2-dashboard-container
+  #         image: ${{ needs.docker-build-push.outputs.dashboard-image }}
 
-      - name: Deploy dashboard via codedeploy blue/green
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition: ${{ steps.render-dashboard-task.outputs.task-definition }}
-          service: ecs-v2-dashboard-ecs-service
-          cluster: ecs-v2-ecs-cluster
-          wait-for-service-stability: true
-          codedeploy-application: blue-green-app
-          codedeploy-deployment-group: dashboard-blue-green-deployment-group
-          codedeploy-appspec: config/appspec-dashboard.yml
+  #     - name: Deploy dashboard via codedeploy blue/green
+  #       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+  #       with:
+  #         task-definition: ${{ steps.render-dashboard-task.outputs.task-definition }}
+  #         service: ecs-v2-dashboard-ecs-service
+  #         cluster: ecs-v2-ecs-cluster
+  #         wait-for-service-stability: true
+  #         codedeploy-application: blue-green-app
+  #         codedeploy-deployment-group: dashboard-blue-green-deployment-group
+  #         codedeploy-appspec: config/appspec-dashboard.yml
 
   # terraform_destroy:
   #   needs: terraform-apply
