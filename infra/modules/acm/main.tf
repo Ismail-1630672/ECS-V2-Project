@@ -1,6 +1,11 @@
 resource "aws_acm_certificate" "cert" {
-  domain_name       = var.domain_name
+  domain_name       = "*.ecs.ismail-osman.co.uk"
   validation_method = var.validation_method
+
+  subject_alternative_names = [
+    "api.ecs.ismail-osman.co.uk",
+    "dashboard.ecs.ismail-osman.co.uk"
+  ]
 
   lifecycle {
     create_before_destroy = true
