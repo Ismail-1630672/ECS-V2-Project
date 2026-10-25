@@ -1,13 +1,14 @@
 name: ECS blue green deployment
 
 on:
-  workflow_run:
-    workflows:
-      - "Build and push docker image to ECR repo"
-      - "ECS infrastructure deployment"
-    types:
-      - completed
-    branch: main
+  workflow_call:
+    inputs:
+      api-image:
+        required: true
+        type: string
+      dashboard-image:
+        required: true
+        type: string
 
 permissions:
   id-token: write
@@ -49,7 +50,7 @@ jobs:
         with:
           task-definition: api-task-definition.json
           container-name: ecs-v2-api-container
-          image: ${{ needs.docker-build-push.outputs.api-image }}
+          image: ${{ inputs.api-image }}
 
       - name: Deploy API via codedeploy blue/green
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
@@ -71,7 +72,7 @@ jobs:
         with:
           task-definition: dashboard-task-definition.json
           container-name: ecs-v2-dashboard-container
-          image: ${{ needs.docker-build-push.outputs.dashboard-image }}
+          image: ${{ inputs.dashboard-image }}
 
       - name: Deploy dashboard via codedeploy blue/green
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
