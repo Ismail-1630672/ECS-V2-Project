@@ -89,7 +89,7 @@ jobs:
         run: |
           terraform apply ./state/ecs-infra-plan.out
 
-  blue-green-deployment:
+  ecs:
     needs: [docker-build-push, terraform-apply]
     uses: ./.github/workflows/blue-green.yml
     with:
