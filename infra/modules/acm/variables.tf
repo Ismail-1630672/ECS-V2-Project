@@ -13,7 +13,3 @@ variable "project_name" {
   description = "name of project"
 }
 
-variable "wildcard_domain_name" {
-  type        = string
-  descriptipn = "wildcard domain name"
-}
