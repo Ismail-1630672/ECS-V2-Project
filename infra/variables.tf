@@ -83,8 +83,9 @@ variable "protocol" {
 variable "domain_name" {
   type        = string
   description = "name of my domain"
-  default     = "ecs.ismail-osman.co.uk"
+  default     = "*.ecs.ismail-osman.co.uk"
 }
+
 
 variable "validation_method" {
   type        = string
@@ -135,7 +136,7 @@ variable "microservices_logs" {
 }
 
 variable "image_tag" {
-  type = string 
+  type        = string
   description = "image tag as github sha for docker image"
 }
 

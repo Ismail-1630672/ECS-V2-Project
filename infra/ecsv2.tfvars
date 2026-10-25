@@ -44,7 +44,7 @@ dashboard_port = 8081
 protocol = "HTTP"
 
 
-domain_name = "ecs.ismail-osman.co.uk"
+domain_name = "*.ecs.ismail-osman.co.uk"
 
 
 validation_method = "DNS"

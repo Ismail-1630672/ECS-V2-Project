@@ -12,3 +12,8 @@ variable "project_name" {
   type        = string
   description = "name of project"
 }
+
+variable "wildcard_domain_name" {
+  type        = string
+  descriptipn = "wildcard domain name"
+}
