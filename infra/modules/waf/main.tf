@@ -72,33 +72,33 @@ resource "aws_wafv2_web_acl" "container" {
     }
   }
 
-  rule {
-    name     = "aws-managed-bot-control"
-    priority = 40
+  # rule {
+  #   name     = "aws-managed-bot-control"
+  #   priority = 40
 
-    override_action {
-      none {}
-    }
+  #   override_action {
+  #     none {}
+  #   }
 
-    statement {
-      managed_rule_group_statement {
-        name        = "AWSManagedRulesBotControlRuleSet"
-        vendor_name = "AWS"
-      }
-    }
+  #   statement {
+  #     managed_rule_group_statement {
+  #       name        = "AWSManagedRulesBotControlRuleSet"
+  #       vendor_name = "AWS"
+  #     }
+  #   }
 
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      metric_name                = "${var.project_name}-BotControlMetrics"
-      sampled_requests_enabled   = true
-    }
-  }
+  #   visibility_config {
+  #     cloudwatch_metrics_enabled = true
+  #     metric_name                = "${var.project_name}-BotControlMetrics"
+  #     sampled_requests_enabled   = true
+  #   }
+  # }
 
-  visibility_config {
-    cloudwatch_metrics_enabled = true
-    metric_name                = "${var.project_name}-waf-metrics"
-    sampled_requests_enabled   = true
-  }
+  # visibility_config {
+  #   cloudwatch_metrics_enabled = true
+  #   metric_name                = "${var.project_name}-waf-metrics"
+  #   sampled_requests_enabled   = true
+  # }
 }
 
 resource "aws_wafv2_web_acl_association" "alb" {
