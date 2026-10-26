@@ -49,6 +49,7 @@ module "alb" {
   dashboard_port        = var.dashboard_port
   protocol              = var.protocol
   certificate_arn       = module.acm.certificate_arn
+  depends_on            = [module.acm]
 
 }
 
