@@ -96,6 +96,6 @@ jobs:
   #     api-image: ${{ needs.docker-build-push.outputs.api-image }}
   #     dashboard-image: ${{ needs.docker-build-push.outputs.dashboard-image }}
 
-  destroy:
-    needs: [terraform-apply]
-    uses: ./.github/workflows/terraform-destroy.yml
+  # destroy:
+  #   needs: [terraform-apply]
+  #   uses: ./.github/workflows/terraform-destroy.yml
