@@ -1,0 +1,53 @@
+name: Destroy Terraform infra
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'type "destroy" to confirm'
+        required: true
+        type: string
+
+  workflow_call:
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: ${{ vars.AWS_REGION }}
+  OIDC_ROLE: ${{ vars.OIDC_ROLE }}
+  TF_VERSION: "1.15.8"
+
+jobs:
+  terraform-destroy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      - name: validate confirmation to destroy infra
+        if: ${{ github.event.inputs.confirm != 'destroy' }}
+        run: |
+          echo "ERROR, you must type destroy for confirmation"
+          exit 1
+
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.OIDC_ROLE }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: initialise terraform
+        working-directory: infra
+        run: |
+          terraform init -backend-config="bucket=ismail-osman-ecs-v2-bucket" \
+          -backend-config="key=terraform.tfstate" \
+          -backend-config="region=eu-west-2"
+
+      - name: destroy terraform
+        working-directory: infra
+        run: |
+          terraform destroy -var-file=ecsv2.tfvars --auto-approve
