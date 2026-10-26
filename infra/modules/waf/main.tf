@@ -94,11 +94,11 @@ resource "aws_wafv2_web_acl" "container" {
   #   }
   # }
 
-  # visibility_config {
-  #   cloudwatch_metrics_enabled = true
-  #   metric_name                = "${var.project_name}-waf-metrics"
-  #   sampled_requests_enabled   = true
-  # }
+  visibility_config {
+    cloudwatch_metrics_enabled = true
+    metric_name                = "${var.project_name}-waf-metrics"
+    sampled_requests_enabled   = true
+  }
 }
 
 resource "aws_wafv2_web_acl_association" "alb" {
