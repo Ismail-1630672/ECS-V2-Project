@@ -97,5 +97,5 @@ jobs:
   #     dashboard-image: ${{ needs.docker-build-push.outputs.dashboard-image }}
 
   destroy:
-    needs: [ecs]
+    needs: [terraform-apply]
     uses: ./.github/workflows/terraform-destroy.yml
