@@ -23,18 +23,13 @@ env:
 
 jobs:
   terraform-destroy:
+    if: ${{ github.event.inputs.confirm == 'destroy' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: ${{ env.TF_VERSION }}
-
-      - name: validate confirmation to destroy infra
-        if: ${{ github.event.inputs.confirm != 'destroy' }}
-        run: |
-          echo "ERROR, you must type destroy for confirmation"
-          exit 1
 
       - name: Configure AWS credentials via OIDC
         uses: aws-actions/configure-aws-credentials@v4
