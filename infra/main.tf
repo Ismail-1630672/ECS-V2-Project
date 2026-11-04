@@ -78,7 +78,7 @@ module "redis" {
   source                  = "./modules/redis"
   project_name            = var.project_name
   private_subnet_id       = module.vpc.private_subnet_id
-  redis_security_group_id = module.security-groups.rds_security_group_id
+  redis_security_group_id = module.security-groups.redis_security_group_id
 }
 
 module "sqs" {

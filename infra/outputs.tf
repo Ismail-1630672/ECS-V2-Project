@@ -38,6 +38,10 @@ output "rds_security_group_id" {
   value = module.security-groups.rds_security_group_id
 }
 
+output "redis_security_group_id" {
+  value = module.security-groups.redis_security_group_id
+}
+
 output "load_balancer_arn" {
   value = module.alb.load_balancer_arn
 }
