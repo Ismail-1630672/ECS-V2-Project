@@ -37,7 +37,6 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: initialise terraform
-        if: ${{ github.event.inputs.confirm == 'destroy' }}
         working-directory: infra
         run: |
           terraform init -backend-config="bucket=ismail-osman-ecs-v2-bucket" \
