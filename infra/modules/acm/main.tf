@@ -1,5 +1,5 @@
 resource "aws_acm_certificate" "cert" {
-  domain_name       = "*.ecs.ismail-osman.co.uk"
+  domain_name       = "*.microservice.ecs-ismail.com"
   validation_method = var.validation_method
 
   subject_alternative_names = [
