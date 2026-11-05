@@ -46,4 +46,4 @@ jobs:
       - name: destroy terraform
         working-directory: infra
         run: |
-          terraform destroy -var-file=ecsv2.tfvars --auto-approve
+          terraform destroy --auto-approve
