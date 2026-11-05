@@ -44,13 +44,13 @@ dashboard_port = 8081
 protocol = "HTTP"
 
 
-domain_name = "ecs.ismail-osman.co.uk"
+domain_name = "microservice.ecs-ismail.com"
 
 
 validation_method = "DNS"
 
 
-host_names = ["api.ecs.ismail-osman.co.uk", "dashboard.ecs.ismail-osman.co.uk"]
+host_names = ["api.microservice.ecs-ismail.com", "dashboard.microservice.ecs-ismail.com"]
 
 
 engine_version = "18.4"

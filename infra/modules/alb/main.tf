@@ -143,7 +143,7 @@ resource "aws_lb_listener_rule" "api" {
 
   condition {
     host_header {
-      values = ["api.ecs.ismail-osman.co.uk"]
+      values = ["api.microservice.ecs-ismail.com"]
     }
   }
 
@@ -163,7 +163,7 @@ resource "aws_lb_listener_rule" "dashboard" {
 
   condition {
     host_header {
-      values = ["dashboard.ecs.ismail-osman.co.uk"]
+      values = ["dashboard.microservice.ecs-ismail.com"]
     }
   }
 

@@ -83,7 +83,7 @@ variable "protocol" {
 variable "domain_name" {
   type        = string
   description = "name of my domain"
-  default     = "*.ecs.ismail-osman.co.uk"
+  default     = "*.microservice.ecs-ismail.com"
 }
 
 

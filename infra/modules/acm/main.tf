@@ -3,8 +3,8 @@ resource "aws_acm_certificate" "cert" {
   validation_method = var.validation_method
 
   subject_alternative_names = [
-    "api.ecs.ismail-osman.co.uk",
-    "dashboard.ecs.ismail-osman.co.uk"
+    "api.microservice.ecs-ismail.com",
+    "dashboard.microservice.ecs-ismail.com"
   ]
 
   lifecycle {
