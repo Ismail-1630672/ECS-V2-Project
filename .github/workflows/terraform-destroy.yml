@@ -46,4 +46,4 @@ jobs:
       - name: destroy terraform
         working-directory: infra
         run: |
-          terraform destroy -var-file=ecsv2.tfvars -auto-approve
+          terraform destroy -var-file="ecsv2.tfvars" -input=false -var="image_tag=${{ github.sha }}" -auto-approve
