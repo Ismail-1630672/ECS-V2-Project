@@ -89,13 +89,9 @@ jobs:
         run: |
           terraform apply ./state/ecs-infra-plan.out
 
-  # ecs:
-  #   needs: [docker-build-push, terraform-apply]
-  #   uses: ./.github/workflows/blue-green.yml
-  #   with:
-  #     api-image: ${{ needs.docker-build-push.outputs.api-image }}
-  #     dashboard-image: ${{ needs.docker-build-push.outputs.dashboard-image }}
-
-  # destroy:
-  #   needs: [terraform-apply]
-  #   uses: ./.github/workflows/terraform-destroy.yml
+  ecs:
+    needs: [docker-build-push, terraform-apply]
+    uses: ./.github/workflows/blue-green.yml
+    with:
+      api-image: ${{ needs.docker-build-push.outputs.api-image }}
+      dashboard-image: ${{ needs.docker-build-push.outputs.dashboard-image }}

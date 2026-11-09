@@ -1,10 +1,6 @@
 name: Destroy Terraform infra
 
 on:
-  # workflow_run:
-  #   workflows: ["ECS infrastructure deployment"]
-  #   types:
-  #     - completed
   workflow_dispatch:
     inputs:
       confirm:
