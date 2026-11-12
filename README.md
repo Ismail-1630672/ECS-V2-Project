@@ -2,7 +2,7 @@
 
 ## Overview
 
-A containerised URL-shortener deployed on `Amazon ECS Fargate` using `Docker` for image builds, `Terraform` for infrastructure provisioning and `GitHub Actions` for CI/CD automation.
+A containerised URL-shortener deployed on Amazon ECS Fargate using Docker for image builds, Terraform for infrastructure provisioning and GitHub Actions for CI/CD automation.
 
 Rather than a monolithic setup the application consists of 3 microservices:
 
@@ -16,7 +16,7 @@ Rather than a monolithic setup the application consists of 3 microservices:
 
 ## Key Features
 
-- **Bootstrapping:** - Provisions foundational AWS resources including the `OIDC IAM role` for GitHub Actions, the `ECR repositories` for the 3 microservices and the `S3 bucket` for Terraform state.
+- **Bootstrapping:** - Provisions foundational AWS resources including the OIDC IAM role for GitHub Actions, the ECR repositories for the 3 microservices and the S3 bucket for Terraform state.
 - **Web application firewall (WAF):** Protects the application load balancer against common web threats.
 - **VPC endpoints:** Provide private connectivity to supported AWS services without relying on a NAT gateway, benefits include cost optimisation and improved security.
 - **Amazon SQS:** Decouples the API and worker microservices for asynchronous message processing.
@@ -46,7 +46,7 @@ AWS CodeDeploy was used to manage blue-green deployments to ECS reducing disrupt
 
 ## Docker
 
-Docker was used to containerise the api, worker and dashboard microservices. Images were built using GitHub Actions, tagged with the Git commit SHA and pushed to `Amazon ECR` before deployment to ECS Fargate.
+Docker was used to containerise the api, worker and dashboard microservices. Images were built using GitHub Actions, tagged with the Git commit SHA and pushed to Amazon ECR before deployment to ECS Fargate.
 
 ### Docker best practices I implemented:
 
@@ -63,7 +63,7 @@ Terraform provisions and manages AWS infrastructure, including:
 - RDS PostgreSQL, ElastiCache Redis, and SQS.
 - Route 53, IAM, ACM, WAF, and CloudWatch.
 
-Terraform state is stored remotely in `Amazon S3` with state locking enabled.
+Terraform state is stored remotely in Amazon S3 with state locking enabled.
 
 ## CI/CD – GitHub Actions
 
@@ -73,11 +73,11 @@ GitHub Actions automates infrastructure provisioning, Docker builds, and blue-gr
 
 1. **Docker:** Build images, tag them with the Git SHA, and push to ECR.
 2. **Terraform:** Initialise, plan, and apply infrastructure changes.
-3. **Reusable workflows:** Use `workflow_call` outputs to pass image information from the image build workflow into the blue-green deployment workflow inputs.
+3. **Reusable workflows:** Use workflow_call outputs to pass image information from the image build workflow into the blue-green deployment workflow inputs.
 4. **Blue-Green Deployment:** Register new ECS task definition revisions and initiate CodeDeploy blue-green deployments.
-5. **Destroy:** Use a separate `workflow_dispatch` workflow to manually trigger Terraform destruction.
+5. **Destroy:** Use a separate workflow_dispatch workflow to manually trigger Terraform destruction.
 
-AWS authentication is handled securely using `GitHub Actions OIDC`, avoiding long-lived AWS access keys.
+AWS authentication is handled securely using GitHub Actions OIDC, avoiding long-lived AWS access keys.
 
 ![ci-cd-pipeline](./images/cicd-pipeline.png)
 
